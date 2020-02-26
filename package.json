@@ -1,0 +1,20 @@
+{
+  "name": "getTicket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+        "start": "node server.js",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install  && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "nodemailer": "^6.4.3",
+    "nodemon": "^2.0.2"
+  }
+}
