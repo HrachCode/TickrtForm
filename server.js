@@ -28,8 +28,8 @@ app.use(express.urlencoded({
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'virap100@gmail.com',
-      pass: 'erevan10'
+      user: 'formapi59@gmail.com',
+      pass: 'virap100'
     }
   })
 
@@ -37,8 +37,8 @@ app.post('/mail',(req,res)=>{
     console.log(req.body.from)
     
     const mailOptions = {
-        from: 'virap100@gmail.com',
-        to:'vahemartirosyan017@icloud.com',
+        from: 'formapi59@gmail.com',
+        to:'formapi59@gmail.com',
         subject: req.body.name,
         text: `ticket booking ${req.body.from}, ${req.body.to}, from ${req.body.value_from_start_date}  ${req.body.value_from_end_date}
         ticketClass  ${req.body.ticketClass}, Passengerscount ${req.body.Passengers},Passenger name  ${req.body.name},Passenger phone  ${req.body.phone}, Passenger email  ${req.body.email}`

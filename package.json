@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-        "start": "node server.js",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install  && npm run start"
+    "start": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install  && npm run start",
+    "config":"https://myaccount.google.com/lesssecureapps"
   },
   "keywords": [],
   "author": "",
