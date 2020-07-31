@@ -5,15 +5,31 @@ const path = require('path')
 const port = process.env.PORT || 5000
 const cors = require('cors')
 const morgan = require('morgan')
-const nodemailer = require('nodemailer')
+const mongoose = require('mongoose')
+const User = require('./Upworking-master/model')
+const favicon = require('express-favicon');
 
-
+app.use(favicon(__dirname + '/public/favicon.png'));
 app.use(cors())
 app.use(morgan('dev'));
 app.use(express.json())
 app.use(express.urlencoded({
     extended: false
 }))
+
+// const mongoURI = process.env.MONGODB_URL || 'mongodb+srv://virap:erevan10@cluster0-vxh3h.mongodb.net/test?retryWrites=true&w=majoritys';
+const mongoURI = "mongodb://localhost:27017/mydb"
+
+mongoose
+  .connect(
+    mongoURI, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useFindAndModify: true,
+    }
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err))
 
 // if (process.env.NODE_ENV === 'production') {
   const publicPath = path.join (__dirname, './','Upworking-master');
@@ -25,54 +41,27 @@ app.use(express.urlencoded({
 //   }
 
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'formapi59@gmail.com',
-      pass: 'virap100'
-    }
-  })
-
 app.post('/mail',(req,res)=>{
-    console.log(req.body.from)
-    
-    const mailOptions = {
-        from: 'formapi59@gmail.com',
-        to:'formapi59@gmail.com',
-        subject: req.body.name,
-        text: `ticket booking ${req.body.from}, ${req.body.to}, from ${req.body.value_from_start_date}  ${req.body.value_from_end_date}
-        ticketClass  ${req.body.ticketClass}, Passengerscount ${req.body.Passengers},Passenger name  ${req.body.name},Passenger phone  ${req.body.phone}, Passenger email  ${req.body.email}`
-      };
+  
+    const {from,to,ticketClass,Passengers,name,phone,email} = req.body;
+    const user = new User({ name,Passengers, from,to,ticketClass,phone,email});
+   
+user.save()
+.then(function(doc){
+    console.log("Сохранен объект", doc);
+    User.find({}).then(data=>{
+      if(data){
+        return res.send(data)
+      }
       
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-          res.status(200).send(`<!DOCTYPE html>
-          <html>
-          <head>
-              <title>succsses</title>
-              <meta charset="utf-8" />
-          </head>
-          <body>
-              <div>
-              <h1 style="text-align: center;
-              color: brown">Your application has been sent for processing</h1>
-              <h2 style="text-align: center;
-              color: #2a33a5">You will receive your email soon</h2>
-              </div>
-          </body>
-          <html>`);
-        }
-       });
-    
+    })
+    res.sendFile (path.join (publicPath, 'demo.html')); 
 })
-
-
-
-
-
+.catch(function (err){
+    console.log(err);
+    mongoose.disconnect();
+});
+})
 
 app.use((req,res,next)=>{
   const error = new Error('Note Found');

@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "config":"https://myaccount.google.com/lesssecureapps"
+    "config": "https://myaccount.google.com/lesssecureapps"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
+    "mongoose": "^5.9.26",
     "morgan": "^1.9.1",
     "nodemailer": "^6.4.3",
     "nodemon": "^2.0.2"
